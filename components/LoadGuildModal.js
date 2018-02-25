@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {AsyncStorage, Button, View, Text, Modal, StyleSheet  } from 'react-native';
-
+import {Button, View, Text, Modal, StyleSheet  } from 'react-native';
+import GuildList from '../components/GuildList'
 
 export default class LoadGuildModal extends Component {
   state = {
@@ -9,6 +9,7 @@ export default class LoadGuildModal extends Component {
 
   constructor(props) {
     super(props);
+    console.log(this.props.guildList)
   }
 
   componentWillReceiveProps(nextProps){
@@ -19,7 +20,6 @@ export default class LoadGuildModal extends Component {
   }  
   _closeModal() {
     this.setState({modalVisible:false});    
-    console.log('close '+ this.state.modalVisible)
   }
 
 
@@ -31,7 +31,8 @@ render(){
 				<View style={styles.modalContainer}>
 					<View style={styles.innerContainer}>
   					<Text>This is content inside of modal component</Text>
- 	 						<Button onPress={() => this._closeModal()} title="Close modal" >
+            <GuildList guildList={this.props.guildList} />
+ 	 						<Button onPress={() => this._closeModal()} title="Close" >
   						</Button>
 					</View>
 				</View>

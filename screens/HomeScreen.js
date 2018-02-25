@@ -11,9 +11,21 @@ export default class HomeScreen extends Component {
     super(props);
   }
 
-_callModal(){
-  this.setState({modalVisible:true})
-  console.log(this.state.modalVisible)
+async _callModal(){
+  guildList = await this.getGuilds();
+  this.setState({modalVisible:true, guildList})
+}
+
+async getGuilds(){
+  try {
+      const response = await AsyncStorage.getAllKeys();
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error)
+      return null;
+      
+    }
 }
 
   
@@ -30,7 +42,7 @@ _callModal(){
           title="Load Guild"
           onPress={() => this._callModal()}
         />
-        <LoadGuildModal modalVisible={this.state.modalVisible} />
+        <LoadGuildModal modalVisible={this.state.modalVisible}  guildList={this.state.guildList}/>
         </View>
     );
   }

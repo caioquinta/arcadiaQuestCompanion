@@ -6,43 +6,47 @@ export default class NewGuildScreen extends Component {
 
     constructor(props) {
     super(props);
-    this.state
     this.state = {guildName: ''};
 
         
   }
 
   _onSaveButton(){
-    _updateGuild() 
-    Alert.alert("save: "+ this.state.guildName);
+    this.updateGuild() 
+    Alert.alert(`guild ${this.state.guildName} saved`);
   }
 
-  async _updateGuild(){
-    let existingGuild = await JSON.parse(response) || [];
-
-    if(existingGuild.length === 0 )
-      Alert.alert('Guild name already exists')
-    else
-      await AsyncStorage.setItem('guildName', JSON.stringify(this.state.guildName)); 
+  async updateGuild(){
+    try {
+      console.log(this.state.guildName)
+      let existingGuild = await AsyncStorage.getItem(`guild:${this.state.guildName}`)
+      existingGuild = JSON.parse(existingGuild);
+      console.log('existingGuild ' + existingGuild)
+      if(existingGuild && existingGuild.name === this.state.guildName)
+        Alert.alert(`Guild name ${this.state.guildName} already exists`)
+      else
+      await AsyncStorage.setItem(`guild:${this.state.guildName}`, JSON.stringify({name: this.state.guildName}));      
+    } catch (error) {
+      console.log(error)
+      
+    }
   }
+
+
 
   render() {
     return (
-      <View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Arcadia Quest Companion</Text>
+      <View style={{ flex: 1,flexDirection: 'column'}}>
+        <View style={{alignItems: 'center', justifyContent: 'center' }}>
+          <Text>New Guild</Text>
         </View>
-        <View style={{ flex: 2 }}>
-          <Text>Name:</Text>
-          <TextInput
-          style={{height: 40}}
-          placeholder="guildname"
-          onChangeText={(text) => this.setState({text})}
-        />
-          <Button
-          title="Salvar"
-          onPress={this._onSaveButton}
-        />
+        <View style={{  }}>
+            <Text>Name:</Text>
+            <TextInput placeholder="guild name" onChangeText={(guildName) => this.setState({guildName})}
+          />
+        </View>
+        <View style={{  alignItems: 'center', justifyContent: 'center' }}>
+          <Button title="Save" onPress={() => this._onSaveButton()} />
         </View>
       </View>
     );
