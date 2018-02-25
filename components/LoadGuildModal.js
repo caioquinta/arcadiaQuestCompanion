@@ -2,20 +2,26 @@ import React, {Component} from 'react';
 import {AsyncStorage, Button, View, Text, Modal, StyleSheet  } from 'react-native';
 
 
-export default class HomeScreen extends Component {
-
+export default class LoadGuildModal extends Component {
+  state = {
+    modalVisible: false,
+  };
 
   constructor(props) {
     super(props);
-    //allGuilds = 
-    this.state = {modalVisible: this.props.modalVisible};
-    
   }
 
-
+  componentWillReceiveProps(nextProps){
+    const {modalVisible} = nextProps
+    if(modalVisible){
+      this.setState({modalVisible:true});    
+    }
+  }  
   _closeModal() {
-    this.setState({modalVisible:false});
+    this.setState({modalVisible:false});    
+    console.log('close '+ this.state.modalVisible)
   }
+
 
 render(){
 	return (
@@ -25,7 +31,7 @@ render(){
 				<View style={styles.modalContainer}>
 					<View style={styles.innerContainer}>
   					<Text>This is content inside of modal component</Text>
- 	 						<Button onPress={() => this.closeModal()} title="Close modal" >
+ 	 						<Button onPress={() => this._closeModal()} title="Close modal" >
   						</Button>
 					</View>
 				</View>
@@ -42,7 +48,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
   },
   innerContainer: {
     alignItems: 'center',

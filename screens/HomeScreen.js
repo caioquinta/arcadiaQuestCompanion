@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Button, View, Text  } from 'react-native';
-import LoadGuildModal from '../components/NewGuildModal';
+import {AsyncStorage, Button, View, Text, Modal, StyleSheet  } from 'react-native';
+import LoadGuildModal from '../components/LoadGuildModal';
 
 export default class HomeScreen extends Component {
   state = {
@@ -9,23 +9,18 @@ export default class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {modalVisible:false};
-
   }
 
-  _openModal() {
-    this.setState({modalVisible:true});
-  }
+_callModal(){
+  this.setState({modalVisible:true})
+  console.log(this.state.modalVisible)
+}
 
-  closeModal() {
-    this.setState({modalVisible:false});
-  }
   
   render() {  
     const {navigation} = this.props;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <LoadGuildModal modalVisible= {this.state.modalVisible} />
         <Text>Arcadia Quest Companion</Text>
         <Button
           title="New Guild"
@@ -33,9 +28,25 @@ export default class HomeScreen extends Component {
         />
         <Button
           title="Load Guild"
-          onPress={this._openModal}
+          onPress={() => this._callModal()}
         />
-      </View>
+        <LoadGuildModal modalVisible={this.state.modalVisible} />
+        </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+  },
+  innerContainer: {
+    alignItems: 'center',
+  },
+});	

@@ -3,8 +3,10 @@ import {AsyncStorage, Alert, Button, View, Text, TextInput } from 'react-native'
 
 export default class NewGuildScreen extends Component {
 
+
     constructor(props) {
     super(props);
+    this.state
     this.state = {guildName: ''};
 
         
@@ -18,7 +20,7 @@ export default class NewGuildScreen extends Component {
   async _updateGuild(){
     let existingGuild = await JSON.parse(response) || [];
 
-    if(existingGuild)
+    if(existingGuild.length === 0 )
       Alert.alert('Guild name already exists')
     else
       await AsyncStorage.setItem('guildName', JSON.stringify(this.state.guildName)); 
